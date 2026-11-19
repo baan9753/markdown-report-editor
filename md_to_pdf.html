@@ -14,7 +14,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:1px solid #cbd2cd;border
 .palette input{appearance:none;width:26px;height:24px;border:1px solid #c5cec7;padding:3px;border-radius:5px;background:white;cursor:pointer}
 .palette input::-webkit-color-swatch-wrapper{padding:0}.palette input::-webkit-color-swatch{border:0;border-radius:2px}
 .palette input::-moz-color-swatch{border:0;border-radius:2px}.palette input:focus-visible{outline:2px solid #62a587;outline-offset:2px}
-.sheet{-webkit-print-color-adjust:exact;print-color-adjust:exact}.sheet hr{border:0;border-top:1px solid #ccd6cc}.issue{color:#9c3d20;border-bottom:1px dotted}.meta{color:#617067;font:12px/1.4 -apple-system,sans-serif}.status{margin:0;padding:8px 22px;background:#fff3d8;color:#643f10;font-size:13px}.status:empty{display:none}
+.sheet{-webkit-print-color-adjust:exact;print-color-adjust:exact}.sheet hr{border:0;border-top:1px solid #ccd6cc}.issue{color:#9c3d20;border-bottom:1px dotted}.meta{color:#617067;font:12px/1.4 -apple-system,sans-serif}
 @media(max-width:750px){.top{padding:10px 12px;flex-wrap:wrap}.brand{font-size:17px}.actions button{font-size:12px;padding:6px 8px}.layout{grid-template-columns:1fr;grid-template-rows:44% 56%}.bar{min-height:37px;padding:4px 12px}.source{border-right:0}.foot{padding:4px 12px}.sheetarea{padding:12px}.sheet{padding:22px}.editorbox textarea{padding:12px}.tools button{height:26px}}
 .actions{flex-wrap:wrap}.history-actions{display:flex;gap:4px}.history-actions button:disabled{cursor:default;background:#fafbf9;border-color:#d5dbd5}
 #viewport{flex:1;min-height:0;overflow:auto;overflow-anchor:none;scrollbar-gutter:stable}
@@ -38,7 +38,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:1px solid #cbd2cd;border
 .photo-card img.paired-photo+br{display:none}
 .report-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 @page{size:A4;margin:0}
-@media print{html,body,#app,.layout,.preview,.sheetarea,.sheet{display:block!important;height:auto!important;min-height:0!important;max-height:none!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important;overflow:visible!important;background:white!important;border:0!important;box-shadow:none!important}.top,.source,.bar,.status{display:none!important}.sheet{padding:18mm!important;-webkit-box-decoration-break:clone;box-decoration-break:clone;font-size:10.5pt;line-height:1.62}.sheet h1,.sheet h2,.sheet h3,.sheet h4{break-after:avoid}.sheet img,.sheet tr{break-inside:avoid}.sheet p{orphans:2;widows:2}.sheet img{max-height:230mm}.sheet thead{display:table-header-group}}
+@media print{html,body,#app,.layout,.preview,.sheetarea,.sheet{display:block!important;height:auto!important;min-height:0!important;max-height:none!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important;overflow:visible!important;background:white!important;border:0!important;box-shadow:none!important}.top,.source,.bar{display:none!important}.sheet{padding:18mm!important;-webkit-box-decoration-break:clone;box-decoration-break:clone;font-size:10.5pt;line-height:1.62}.sheet h1,.sheet h2,.sheet h3,.sheet h4{break-after:avoid}.sheet img,.sheet tr{break-inside:avoid}.sheet p{orphans:2;widows:2}.sheet img{max-height:230mm}.sheet thead{display:table-header-group}}
 </style>
 </head>
 <body>
@@ -55,7 +55,7 @@ button{font:inherit;color:inherit;cursor:pointer;border:1px solid #cbd2cd;border
 <button id="undo" title="이전 편집 상태로 되돌리기 (Ctrl+Z / ⌘Z)" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m9 4-6 6 6 6M4 10h10a6 6 0 0 1 0 12" transform="translate(0 -1)"/></svg>이전</button>
 <button id="redo" title="취소한 편집 다시 실행 (Ctrl+Shift+Z / ⌘Shift+Z)" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 4 6 6-6 6m5-6h-10a6 6 0 0 0 0 12" transform="translate(0 -1)"/></svg>다음</button></div>
 <button id="open"><svg><use href="#folder"/></svg>열기</button><button id="save"><svg><use href="#saveicon"/></svg>원본 저장</button><button id="pdf" class="primary"><svg><use href="#down"/></svg>PDF 내보내기</button>
-</nav></header><p role="status" id="message" class="status"></p>
+</nav></header>
 <div id="viewport" tabindex="0" role="region" aria-label="원본과 미리보기 함께 스크롤"><main class="layout"><section class="pane source"><div class="bar"><label class="label" for="editor"><svg><use href="#code"/></svg>마크다운</label><div class="tools"><button id="picture"><svg><use href="#photo"/></svg>사진 첨부</button></div></div>
 <div class="formatbar" role="group" aria-label="선택 영역 배치"><button id="page-break" data-tip="커서 위치에서 새 페이지 시작" aria-label="페이지 나누기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v5H5zM5 16h14v5H5zM3 12h3m3 0h3m3 0h3m2 0h1"/></svg></button><button data-layout="left" data-tip="선택한 문단이나 사진을 왼쪽으로 정렬" aria-label="왼쪽 정렬"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18M3 10h11M3 15h18M3 20h11"/></svg></button><button data-layout="center" data-tip="선택한 문단이나 사진을 가운데로 정렬" aria-label="가운데 정렬"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18M6.5 10h11M3 15h18M6.5 20h11"/></svg></button><button data-layout="right" data-tip="선택한 문단이나 사진을 오른쪽으로 정렬" aria-label="오른쪽 정렬"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18M10 10h11M3 15h18M10 20h11"/></svg></button><button data-layout="grid" aria-label="2열 그리드" data-tip="빈 줄로 구분한 내용을 두 열로 배치"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg></button></div><div class="editorbox"><div id="measure" aria-hidden="true"></div><textarea id="editor" spellcheck="false" aria-describedby="hint" placeholder="# 보고서 제목"></textarea></div>
 <footer class="foot"><span id="hint">사진은 편집창에, .md 파일은 창 어디에나 끌어다 놓으세요.</span><span id="length"></span></footer></section>
@@ -190,7 +190,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
 <script>
 'use strict';
 const byId = id => document.getElementById(id);
-const editor = byId('editor'), paper = byId('paper'), message = byId('message');
+const editor = byId('editor'), paper = byId('paper');
 const starter = '# 새 보고서\n\n';
 let photos = new Map(), dirty = false, busy = false;
 const mainPicker = byId('main-color'), subPicker = byId('sub-color');
@@ -393,7 +393,7 @@ function modified(previous = lastEdit) {
   }
   lastEdit = current;
   dirty = !sameDocument(baseline, current);
-  message.textContent = ''; render();
+  render();
 }
 function moveEdit(from, to) {
   if (busy || compositionStart || !from.length) return;
@@ -405,7 +405,7 @@ function moveEdit(from, to) {
   editor.setSelectionRange(state.start, state.end, state.direction);
   lastEdit = state; beforeInput = null;
   dirty = !sameDocument(baseline, state);
-  message.textContent = ''; render();
+  render();
 }
 editor.addEventListener('beforeinput', event => {
   if (['historyUndo','historyRedo'].includes(event.inputType) && event.cancelable && !compositionStart) {
@@ -423,7 +423,7 @@ editor.addEventListener('compositionend', () => {
   if (previous) modified(previous);
 });
 editor.oninput = () => {
-  if (compositionStart) { dirty = true; message.textContent = ''; render(); }
+  if (compositionStart) { dirty = true; render(); }
   else modified(beforeInput || lastEdit);
   beforeInput = null;
 };
@@ -493,7 +493,7 @@ async function addPhotos(files) {
     const before = editor.value.slice(0, editor.selectionStart);
     const gap = !before || before.endsWith('\n\n') ? '' : before.endsWith('\n') ? '\n' : '\n\n';
     insert(gap + batch.map(item => '![' + item.label + '][' + item.key + ']').join('\n\n') + '\n\n', previous);
-  } catch(e) { message.textContent = e instanceof DOMException ? '사진을 읽을 수 없습니다. PNG 또는 JPEG로 다시 첨부해 주세요.' : e.message; }
+  } catch(e) { window.alert(e instanceof DOMException ? '사진을 읽을 수 없습니다. PNG 또는 JPEG로 다시 첨부해 주세요.' : e.message); }
   finally { lock(false); editor.focus(); }
 }
 editor.onpaste = event => {
@@ -513,13 +513,13 @@ window.addEventListener('drop', event => {
   const documents = files.filter(file => /\.(md|markdown)$/i.test(file.name) || file.type === 'text/markdown');
   if (documents.length) {
     if (files.length === 1) openDocument(documents[0]);
-    else message.textContent = '열려는 마크다운 파일 하나만 끌어다 놓으세요.';
+    else window.alert('열려는 마크다운 파일 하나만 끌어다 놓으세요.');
     return;
   }
   if (box.contains(event.target) && files.every(file => file.type.startsWith('image/'))) {
     addPhotos(files);
   } else {
-    message.textContent = '.md 파일은 창 어디에나, 사진은 왼쪽 편집창에 놓으세요.';
+    window.alert('.md 파일은 창 어디에나, 사진은 왼쪽 편집창에 놓으세요.');
   }
 });
 byId('picture').onclick = () => byId('photos').click();
@@ -553,14 +553,14 @@ byId('save').onclick = () => {
   const link = document.createElement('a'); link.href = url; link.download = title().replace(/[\\/:*?"<>|]/g,'_').slice(0,90) + '.md';
   document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url),60000);
   baseline = snapshot();
-  dirty = false; message.textContent = '사진을 포함한 마크다운 원본을 다운로드합니다.';
+  dirty = false;
 };
 byId('open').onclick = () => byId('mdfile').click();
 async function openDocument(file) {
   if (!file || busy || (dirty && !confirm('저장하지 않은 편집 내용이 있습니다. 다른 문서를 열까요?'))) return;
   lock(true);
-  try { loadMarkdown(await file.text()); message.textContent = ''; }
-  catch { message.textContent = '문서를 열 수 없습니다.'; } finally { lock(false); }
+  try { loadMarkdown(await file.text()); }
+  catch { window.alert('문서를 열 수 없습니다.'); } finally { lock(false); }
 }
 byId('mdfile').onchange = event => {
   const file = event.target.files[0];
@@ -569,15 +569,14 @@ byId('mdfile').onchange = event => {
 };
 byId('pdf').onclick = async () => {
   if (busy) return;
-  if (!editor.value.trim()) { message.textContent = '내보낼 내용을 입력해 주세요.'; editor.focus(); return; }
+  if (!editor.value.trim()) { window.alert('내보낼 내용을 입력해 주세요.'); editor.focus(); return; }
   lock(true);
   try {
     if (paper.querySelector('.issue')) throw Error();
     await Promise.all([...paper.querySelectorAll('img')].map(img => img.decode()));
     await document.fonts.ready;
-    message.textContent = '인쇄 창에서 PDF로 저장을 선택하세요.';
     document.title = title(); window.print();
-  } catch { message.textContent = 'PDF를 만들 수 없습니다. 미리보기에서 사진을 확인한 뒤 다시 첨부해 주세요.'; }
+  } catch { window.alert('PDF를 만들 수 없습니다. 미리보기에서 사진을 확인한 뒤 다시 첨부해 주세요.'); }
   finally { lock(false); }
 };
 window.addEventListener('beforeunload',e => { if (dirty || busy) { e.preventDefault(); e.returnValue = ''; } });
