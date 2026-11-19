@@ -29,6 +29,9 @@ button{font:inherit;color:inherit;cursor:pointer;border:1px solid #cbd2cd;border
 .page-divider{display:flex;align-items:center;gap:10px;margin:24px 0;color:#476752;font-size:12px;user-select:none}
 .page-divider::before,.page-divider::after{content:"";flex:1;border-top:1px dashed #90a598}
 @media print{.page-divider{display:none!important}.md-block.new-page{display:block;break-before:page;page-break-before:always}}
+.formatbar{display:flex;flex-wrap:wrap;gap:5px;padding:5px 12px;border-bottom:1px solid #dbe1d9}.formatbar button{width:32px;height:30px;padding:5px}.report-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.report-grid>.md-block{display:block;min-width:0}
+.formatbar button{position:relative}.formatbar button:is(:hover,:focus-visible)::after{content:attr(data-tip);position:absolute;top:calc(100% + 5px);left:0;z-index:5;padding:5px 8px;border-radius:5px;background:#263b30;color:white;font:12px/1.5 sans-serif;white-space:nowrap;pointer-events:none}.formatbar button:nth-child(n+4)::after{left:auto;right:0}
+.report-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
 @page{size:A4;margin:18mm}
 @media print{html,body,#app,.layout,.preview,.sheetarea,.sheet{display:block!important;height:auto!important;min-height:0!important;max-height:none!important;width:auto!important;max-width:none!important;margin:0!important;padding:0!important;overflow:visible!important;background:white!important;border:0!important;box-shadow:none!important}.top,.source,.bar,.status{display:none!important}.sheet{font-size:10.5pt;line-height:1.62}.sheet h1,.sheet h2,.sheet h3,.sheet h4{break-after:avoid}.sheet img,.sheet tr{break-inside:avoid}.sheet p{orphans:2;widows:2}.sheet img{max-height:230mm}.sheet thead{display:table-header-group}}
 </style>
@@ -48,8 +51,8 @@ button{font:inherit;color:inherit;cursor:pointer;border:1px solid #cbd2cd;border
 <button id="redo" title="취소한 편집 다시 실행 (Ctrl+Shift+Z / ⌘Shift+Z)" disabled><svg aria-hidden="true" viewBox="0 0 24 24"><path d="m15 4 6 6-6 6m5-6h-10a6 6 0 0 0 0 12" transform="translate(0 -1)"/></svg>다음</button></div>
 <button id="open"><svg><use href="#folder"/></svg>열기</button><button id="save"><svg><use href="#saveicon"/></svg>원본 저장</button><button id="pdf" class="primary"><svg><use href="#down"/></svg>PDF 내보내기</button>
 </nav></header><p role="status" id="message" class="status"></p>
-<div id="viewport" tabindex="0" role="region" aria-label="원본과 미리보기 함께 스크롤"><main class="layout"><section class="pane source"><div class="bar"><label class="label" for="editor"><svg><use href="#code"/></svg>마크다운</label><div class="tools"><button id="bold" aria-label="굵게" title="굵게"><b>B</b></button><button id="page-break" title="커서 위치에서 새 페이지 시작">페이지 나누기</button><button id="picture"><svg><use href="#photo"/></svg>사진 첨부</button></div></div>
-<div class="editorbox"><div id="measure" aria-hidden="true"></div><textarea id="editor" spellcheck="false" aria-describedby="hint" placeholder="# 보고서 제목"></textarea></div>
+<div id="viewport" tabindex="0" role="region" aria-label="원본과 미리보기 함께 스크롤"><main class="layout"><section class="pane source"><div class="bar"><label class="label" for="editor"><svg><use href="#code"/></svg>마크다운</label><div class="tools"><button id="picture"><svg><use href="#photo"/></svg>사진 첨부</button></div></div>
+<div class="formatbar" role="group" aria-label="선택 영역 배치"><button id="page-break" data-tip="커서 위치에서 새 페이지 시작" aria-label="페이지 나누기"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h14v5H5zM5 16h14v5H5zM3 12h3m3 0h3m3 0h3m2 0h1"/></svg></button><button data-layout="left" data-tip="선택한 문단이나 사진을 왼쪽으로 정렬" aria-label="왼쪽 정렬"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18M3 10h11M3 15h18M3 20h11"/></svg></button><button data-layout="center" data-tip="선택한 문단이나 사진을 가운데로 정렬" aria-label="가운데 정렬"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18M6.5 10h11M3 15h18M6.5 20h11"/></svg></button><button data-layout="right" data-tip="선택한 문단이나 사진을 오른쪽으로 정렬" aria-label="오른쪽 정렬"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 5h18M10 10h11M3 15h18M10 20h11"/></svg></button><button data-layout="grid" aria-label="2열 그리드" data-tip="빈 줄로 구분한 내용을 두 열로 배치"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z"/></svg></button></div><div class="editorbox"><div id="measure" aria-hidden="true"></div><textarea id="editor" spellcheck="false" aria-describedby="hint" placeholder="# 보고서 제목"></textarea></div>
 <footer class="foot"><span id="hint">사진은 편집창에, .md 파일은 창 어디에나 끌어다 놓으세요.</span><span id="length"></span></footer></section>
 <section class="pane preview" aria-label="미리보기"><div class="bar"><span class="label"><svg><use href="#doc"/></svg>미리보기</span><div class="palette" role="group" aria-label="보고서 색상">
 <label title="제목과 소제목"><input id="main-color" type="color" value="#1b3328">메인 컬러</label>
@@ -321,6 +324,9 @@ function render() {
   for (const token of tokens) {
     const offset = markdown.indexOf(token.raw, cursor);
     if (offset >= 0) cursor = offset + token.raw.length;
+    const layout = token.type === 'html' && /^<!-- layout:(left|center|right|grid3?) -->$/.exec(token.raw.trim());
+    if (layout) { blocks.push(layout[1] === 'grid3' ? '<div class="report-grid three">' : layout[1] === 'grid' ? '<div class="report-grid">' : '<div style="text-align:'+layout[1]+'">'); continue; }
+    if (token.type === 'html' && token.raw.trim() === '<!-- /layout -->') { blocks.push('</div>'); continue; }
     const isBreak = token.type === 'html' && token.raw.trim() === '<!-- pagebreak -->';
     const html = isBreak ? '<div class="page-divider" role="separator" aria-label="페이지 나누기">페이지 나누기</div>' : parser.parser([token]);
     if (!html.trim()) continue;
@@ -395,6 +401,22 @@ function insert(text, previous = snapshot()) {
   editor.setRangeText(text,editor.selectionStart,editor.selectionEnd,'end');
   editor.focus(); modified(previous);
 }
+function applyLayout(mode) {
+    const previous = snapshot();
+    const text = editor.value;
+    const start = text.slice(0, editor.selectionStart).lastIndexOf('\n') + 1;
+    const last = editor.selectionEnd > start && text[editor.selectionEnd-1] === '\n' ? editor.selectionEnd-1 : editor.selectionEnd;
+    const next = text.indexOf('\n', last);
+    const end = next < 0 ? text.length : next;
+    const body = text.slice(start,end) || (mode === 'grid' ? '첫 번째 칸\n\n두 번째 칸' : '내용');
+    const prefix = '\n\n<!-- layout:'+mode+' -->\n\n';
+    editor.setRangeText(prefix+body+'\n\n<!-- /layout -->\n\n',start,end,'end');
+    editor.focus(); editor.setSelectionRange(start+prefix.length,start+prefix.length+body.length);
+    modified(previous);
+}
+for (const button of document.querySelectorAll('[data-layout]')) {
+  button.onclick = () => applyLayout(button.dataset.layout);
+}
 byId('page-break').onclick = () => {
   const previous = snapshot();
   const at = editor.selectionStart;
@@ -410,7 +432,6 @@ byId('page-break').onclick = () => {
   editor.setSelectionRange(next, next);
   modified(previous);
 };
-byId('bold').onclick = () => insert('**' + (editor.value.slice(editor.selectionStart,editor.selectionEnd) || '강조할 내용') + '**');
 function lock(value) {
   busy = value; editor.readOnly = value;
   mainPicker.disabled = subPicker.disabled = value;
