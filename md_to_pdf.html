@@ -192,6 +192,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
 const byId = id => document.getElementById(id);
 const editor = byId('editor'), paper = byId('paper');
 const starter = '# 새 보고서\n\n';
+let currentHandle = null, openedName = '';
 let photos = new Map(), dirty = false, busy = false;
 const mainPicker = byId('main-color'), subPicker = byId('sub-color');
 const defaultMain = mainPicker.value, defaultSub = subPicker.value;
@@ -512,7 +513,12 @@ window.addEventListener('drop', event => {
   if (busy) return;
   const documents = files.filter(file => /\.(md|markdown)$/i.test(file.name) || file.type === 'text/markdown');
   if (documents.length) {
-    if (files.length === 1) openDocument(documents[0]);
+    if (files.length === 1) {
+      // Read the drag item during the drop event, while the browser grants access.
+      const item = [...event.dataTransfer.items].find(item => item.kind === 'file');
+      const handle = item?.getAsFileSystemHandle?.().catch(() => null);
+      openDocument(async () => ({file:documents[0], handle:await handle}));
+    }
     else window.alert('열려는 마크다운 파일 하나만 끌어다 놓으세요.');
     return;
   }
@@ -541,6 +547,7 @@ function loadMarkdown(source) {
     if (!embedded.test(data)) return line;
     incoming.set(key,data); return '';
   });
+  currentHandle = null; openedName = '';
   photos = incoming; editor.value = incoming.size && text.endsWith('\n\n') ? text.slice(0,-2) : text;
   viewport.scrollTop = 0;
   undoStack.length = redoStack.length = 0;
@@ -548,24 +555,57 @@ function loadMarkdown(source) {
   baseline = lastEdit = snapshot();
   dirty = false; render();
 }
-byId('save').onclick = () => {
+const markdownTypes = [{description:'마크다운 문서', accept:{'text/markdown':['.md','.markdown','.txt']}}];
+function downloadMarkdown(name) {
   const url = URL.createObjectURL(new Blob([packed()],{type:'text/markdown;charset=utf-8'}));
-  const link = document.createElement('a'); link.href = url; link.download = title().replace(/[\\/:*?"<>|]/g,'_').slice(0,90) + '.md';
+  const link = document.createElement('a');
+  link.href = url; link.download = name;
   document.body.append(link); link.click(); link.remove(); setTimeout(() => URL.revokeObjectURL(url),60000);
-  baseline = snapshot();
-  dirty = false;
-};
-byId('open').onclick = () => byId('mdfile').click();
-async function openDocument(file) {
-  if (!file || busy || (dirty && !confirm('저장하지 않은 편집 내용이 있습니다. 다른 문서를 열까요?'))) return;
-  lock(true);
-  try { loadMarkdown(await file.text()); }
-  catch { window.alert('문서를 열 수 없습니다.'); } finally { lock(false); }
 }
+byId('save').onclick = async () => {
+  if (busy) return;
+  lock(true);
+  const name = openedName || title().replace(/[\\/:*?"<>|]/g,'_').slice(0,90) + '.md';
+  try {
+    if (currentHandle || window.showSaveFilePicker) {
+      const handle = currentHandle || await window.showSaveFilePicker({suggestedName:name,types:markdownTypes});
+      const writer = await handle.createWritable();
+      try { await writer.write(packed()); await writer.close(); }
+      catch (error) { await writer.abort().catch(() => {}); throw error; }
+      currentHandle = handle; openedName = handle.name;
+    } else {
+      downloadMarkdown(name);
+    }
+    baseline = snapshot(); dirty = false;
+  } catch (error) {
+    if (error.name !== 'AbortError') {
+      if (['NotAllowedError','NotFoundError'].includes(error.name)) currentHandle = null;
+      window.alert('파일을 저장할 수 없습니다. 편집 내용은 그대로 있습니다. 다시 저장해 주세요.');
+    }
+  } finally { lock(false); }
+};
+async function openDocument(selectFile) {
+  if (busy || (dirty && !confirm('저장하지 않은 편집 내용이 있습니다. 다른 문서를 열까요?'))) return;
+  lock(true);
+  try {
+    const {file, handle} = await selectFile();
+    loadMarkdown(await file.text());
+    currentHandle = handle || null; openedName = file.name;
+  } catch (error) {
+    if (error.name !== 'AbortError') window.alert('문서를 열 수 없습니다.');
+  } finally { lock(false); }
+}
+byId('open').onclick = () => {
+  if (!window.showOpenFilePicker) { byId('mdfile').click(); return; }
+  openDocument(async () => {
+    const [handle] = await window.showOpenFilePicker({types:markdownTypes});
+    return {file:await handle.getFile(),handle};
+  });
+};
 byId('mdfile').onchange = event => {
   const file = event.target.files[0];
   event.target.value = '';
-  openDocument(file);
+  if (file) openDocument(() => ({file}));
 };
 byId('pdf').onclick = async () => {
   if (busy) return;
